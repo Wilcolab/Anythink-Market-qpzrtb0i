@@ -21,3 +21,13 @@ def get_slug_for_item(title: str) -> str:
 
 def check_user_can_modify_item(item: Item, user: User) -> bool:
     return item.seller.username == user.username
+
+def get_image_for_title(title: str, size: str) -> str:
+    try:
+        response = openai.Image.create(prompt=title, n=1, size=size)
+        image_url = response['data'][0]['url']
+        return image_url
+    except openai.error.OpenAIError as e:
+        print(e.http_status)
+        print(e.error)
+        return None

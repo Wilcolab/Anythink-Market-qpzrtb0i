@@ -1,3 +1,5 @@
+import os
+
 from fastapi import FastAPI
 from fastapi.exceptions import RequestValidationError
 from starlette.exceptions import HTTPException
@@ -40,6 +42,8 @@ def get_application() -> FastAPI:
 
     application.include_router(home_router)
     application.include_router(api_router, prefix=settings.api_prefix)
+
+    openai.api_key = os.getenv("OPENAI_API_KEY")
 
     return application
 
